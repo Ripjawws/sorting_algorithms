@@ -1,88 +1,85 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include "sort.h"
 
 /**
- * myswap - swaps two values
+ * partition - find a partition
  *
- * @array: data sort input
- * @firts: first
- * @second: second
- * @size: size
- *
- * Return: No Return
+ * @array: Array
+ * @f_p: first point of array
+ * @s_p: second point of array
+ * @f_size: full size for printing
+ * Return: partition index
  */
-void myswap(int *array, int firts, int second, int size)
+
+size_t partition(int *array, size_t f_p, size_t s_p, size_t f_size)
 {
-	int tmp;
+	size_t j = f_p;
+	size_t i = 0;
+	int temp;
+	int x = array[s_p];
 
-	if (array[firts] != array[second])
+	i = f_p;
+	for (; j < s_p; j++)
 	{
-		tmp = array[firts];
-		array[firts] = array[second];
-		array[second] = tmp;
-		print_array(array, size);
-	}
-}
-
-/**
- * part - part to a pivot
- *
- * @array: data sort input
- * @left: left
- * @right: right
- * @size: size input
- *
- * Return: New pivote
- */
-int part(int *array, int left, int right, size_t size)
-{
-	int i = left, j, pivot  = array[right];
-
-	for (j = left; j <= right; j++)
-	{
-		if (array[j] < pivot)
+		if (array[j] <= x)
 		{
-			myswap(array, i, j, size);
-			i++;
+			if (i != j)
+			{
+				temp = array[i];
+				array[i] = array[j];
+				array[j] = temp;
+				print_array(array, f_size);
+			}
+			i = i + 1;
 		}
 	}
-	myswap(array, i, right, size);
-
+	if (j != f_p && i != s_p)
+	{
+		temp = array[i];
+		array[i] = array[s_p];
+		array[s_p] = temp;
+		print_array(array, f_size);
+	}
 	return (i);
 }
 
 /**
- * myquicksort -  quick sort algorithm
+ * quick_sort_help - sort data by quicksort algorithm
  *
- * @array: data to sort
- * @left: left pivote
- * @right: right pivote
- * @size: size input
- * Return: No Return
+ * @array: Array
+ * @f_p: first point of array
+ * @s_p: second point of array
+* @f_size: full size for printing
+ * Return:
  */
-void myquicksort(int *array, int left, int right, size_t size)
-{
-	int pivote;
 
-	if (left < right)
-	{
-		pivote = part(array, left, right, size);
-		myquicksort(array, left, pivote - 1, size);
-		myquicksort(array, pivote + 1, right, size);
-	}
+void quick_sort_help(int *array, size_t f_p, size_t s_p, size_t f_size)
+{
+	size_t p;
+
+	p = partition(array, f_p, s_p, f_size);
+	if (p - f_p > 1)
+		quick_sort_help(array, f_p, (p - 1), f_size);
+	if (s_p - p > 1)
+		quick_sort_help(array, (p + 1), s_p, f_size);
 }
 
 /**
- * quick_sort -  quick sort algorithm
+ * quick_sort - sort data by quicksort algorithm
  *
- * @array: sort data
- * @size: size input
+ * @array: Array
+ * @size: Size of the array
  *
- * Return: No Return
+ * Return:
  */
+
 void quick_sort(int *array, size_t size)
 {
-	if (size < 2)
-		return;
+	size_t f_p = 0;
+	size_t s_p = size - 1;
 
-	myquicksort(array, 0, size - 1, size);
+	if (!array)
+		return;
+	quick_sort_help(array, f_p, s_p, size);
 }
