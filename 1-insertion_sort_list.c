@@ -6,43 +6,43 @@
  */
 void insertion_sort_list(listint_t **list)
 {
-listint_t *curr, *auxiliar;
-listint_t *tmp;
+listint_t *current, *aux;
+listint_t *temp;
 
 if (!list || *list == NULL)
 return;
-curr = *list;
-if (curr->next == NULL)
+current = *list;
+if (current->next == NULL)
 return;
-while (curr->next != NULL)
+while (current->next != NULL)
 {
-auxiliar = curr->next;
-if (curr->n > auxiliar->n)
+aux = current->next;
+if (current->n > aux->n)
 {
-tmp = curr;
-while (tmp != NULL && tmp->n > auxiliar->n)
+temp = current;
+while (temp != NULL && temp->n > aux->n)
 {
-tmp->next = auxiliar->next;
-if (tmp->next != NULL)
+temp->next = aux->next;
+if (temp->next != NULL)
 {
-tmp->next->prev = tmp;
+temp->next->prev = temp;
 }
-auxiliar->prev = tmp->prev;
-if (auxiliar->prev != NULL)
+aux->prev = temp->prev;
+if (aux->prev != NULL)
 {
-auxiliar->prev->next = auxiliar;
+aux->prev->next = aux;
 }
 else
 {
-*list = auxiliar;
+*list = aux;
 }
-tmp->prev = auxiliar;
-auxiliar->next = tmp;
+temp->prev = aux;
+aux->next = temp;
 print_list(*list);
-tmp = auxiliar->prev;
+temp = aux->prev;
 }
 continue;
 }
-curr = curr->next;
+current = current->next;
 }
 }
