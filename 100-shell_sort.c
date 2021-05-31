@@ -76,4 +76,3 @@ void shell_sort(int *array, size_t size)
 		interval = (interval - 1) / 3;
 	}
 }
-© 2021 GitHub, Inc.
